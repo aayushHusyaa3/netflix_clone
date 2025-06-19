@@ -22,6 +22,23 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    loadRememberEmail();
+  }
+
+  void loadRememberEmail() async {
+    final cubit = context.read<LoginCubit>();
+    final savedEmail = await cubit.rememberEmail();
+    if (savedEmail != null) {
+      emailController.text = savedEmail;
+      cubit.onCheckBoxClicked(true);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<LoginCubit>();
@@ -31,13 +48,27 @@ class _LoginPageState extends State<LoginPage> {
           padding: EdgeInsets.symmetric(vertical: 50.r, horizontal: 25.r),
           child: BlocConsumer<LoginCubit, LoginState>(
             listener: (context, state) {
-              if (state.status == LoginStatus.emptyInfo ||
-                  state.status == LoginStatus.loggedIn ||
-                  state.status == LoginStatus.loginFailure) {
+              if (state.status == LoginStatus.emptyInfo) {
                 mySnackBar(context, snackBarText: state.message!);
-              }
-              if (state.status == LoginStatus.loggedIn) {
-                Navigator.pushReplacementNamed(context, '/homePage');
+                isLoading = false;
+
+                bloc.clearMessage();
+              } else if (state.status == LoginStatus.logginIn) {
+                mySnackBar(context, snackBarText: state.message!);
+                isLoading = true;
+
+                bloc.clearMessage();
+              } else if (state.status == LoginStatus.loginFailure) {
+                mySnackBar(context, snackBarText: state.message!);
+                isLoading = false;
+
+                bloc.clearMessage();
+              } else if (state.status == LoginStatus.loggedIn) {
+                mySnackBar(context, snackBarText: state.message!);
+                isLoading = false;
+
+                Navigator.pushNamed(context, AppRoutes.navigationScreen);
+                bloc.clearMessage();
               }
             },
 
@@ -75,12 +106,12 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               Row(
                                 children: [
-                                  // Checkbox(
-                                  //   value: authProvider.toogleValue,
-                                  //   onChanged: (newValue) {
-                                  //     newValue = !authProvider.toogleValue;
-                                  //   },
-                                  // ),
+                                  Checkbox(
+                                    value: state.isChecked,
+                                    onChanged: (newValue) {
+                                      bloc.onCheckBoxClicked(newValue!);
+                                    },
+                                  ),
                                   Text("Remember Me", style: t3()),
 
                                   Spacer(),
@@ -95,6 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               MyElevatedButton(
                                 text: "Login",
+                                isloading: isLoading,
                                 onPressed: () {
                                   String myEmail = emailController.text
                                       .toString();

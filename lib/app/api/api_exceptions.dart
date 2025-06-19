@@ -8,7 +8,7 @@ class ApiException implements Exception {
     errorMsg = "Something went wrong... Please wait again";
   }
 
-  ApiException.formDioException(DioException exe) {
+  ApiException.fromDioError(DioException exe) {
     final statusCode = exe.response?.statusCode;
     final data = exe.response?.data;
     if (exe.type == DioExceptionType.connectionTimeout ||

@@ -229,7 +229,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 text: "log out",
                                 onPressed: () {
                                   logut(context);
+                                  storage.delete(key: "email");
                                 },
+
                                 isFulled: false,
                               ),
                             ],

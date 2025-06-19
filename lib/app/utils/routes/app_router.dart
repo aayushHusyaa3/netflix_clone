@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/app/utils/routes/app_routes.dart';
+import 'package:flutter_application_2/screens/forget_password.dart';
 import 'package:flutter_application_2/screens/homePage.dart';
 import 'package:flutter_application_2/screens/login.dart';
 import 'package:flutter_application_2/screens/navigation.dart';
@@ -38,6 +39,8 @@ class AppRouter {
       return _transitionTo(SplashScreen());
     } else if (settings.name == AppRoutes.home) {
       return _transitionTo(HomePage());
+    } else if (settings.name == AppRoutes.forgetScreen) {
+      return _transitionTo(ForgetPassword());
     } else if (settings.name == AppRoutes.navigationScreen) {
       return _transitionTo(NavigationPage());
     } else if (settings.name == AppRoutes.login) {

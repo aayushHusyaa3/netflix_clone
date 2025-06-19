@@ -6,7 +6,7 @@ class ApiHelper {
   static final Dio dio = Dio();
   static Future<Response> post({
     required String path,
-    Map<String, dynamic>? data,
+    required Map<String, dynamic> data,
   }) async {
     try {
       final Response response = await dio.post(
@@ -15,7 +15,7 @@ class ApiHelper {
       );
       return response;
     } on DioException catch (exe) {
-      throw ApiException.formDioException(exe);
+      throw ApiException.fromDioError(exe);
     }
   }
 }
