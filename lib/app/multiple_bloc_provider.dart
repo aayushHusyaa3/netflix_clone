@@ -1,11 +1,12 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_application_2/cubit/cubit/loginn_cubit.dart';
 import 'package:flutter_application_2/service/login_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MultipleBlocProvider extends StatelessWidget {
-  final Widget child;
-  const MultipleBlocProvider({super.key, required this.child});
+class MultipleBlocProviders extends StatelessWidget {
+  const MultipleBlocProviders({super.key, required Widget child})
+      : _child = child;
+  final Widget _child;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class MultipleBlocProvider extends StatelessWidget {
           create: (context) => LoginCubit(LoginService()),
         ),
       ],
-      child: child,
+      child: _child,
     );
   }
 }

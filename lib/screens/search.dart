@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_2/ModelClass/search_movies.dart';
 import 'package:flutter_application_2/app/api/api_path.dart';
 import 'package:flutter_application_2/app/utils/AppColor/app_color.dart';
-import 'package:flutter_application_2/app/api/api_helpers.dart';
 import 'package:flutter_application_2/app/utils/textStyles/textstyle.dart';
 import 'package:flutter_application_2/app/utils/uiHelper/ui_helper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,7 +38,6 @@ class _SearchPageState extends State<SearchPage> {
     try {
       final Response response = await dio.post(
         ApiPath.baseUrl + ApiPath.searchMovies,
-
         data: {"name": userSearchController.text.toString()},
       );
       if (response.statusCode == 200) {
@@ -49,7 +47,7 @@ class _SearchPageState extends State<SearchPage> {
 
         mySnackBar(context, snackBarText: "showed Succesful");
       }
-    } on DioException catch (exe) {
+    } on DioError catch (exe) {
       mySnackBar(context, snackBarText: "Unable to load Movies $exe");
     } finally {
       setState(() {
@@ -128,7 +126,6 @@ Widget imageTile({
             SizedBox(width: 20.w),
             Text(movietitle, style: t1().copyWith(fontSize: 18.sp)),
             Spacer(),
-
             IconButton(onPressed: onPressed, icon: Icon(Icons.play_arrow)),
           ],
         ),

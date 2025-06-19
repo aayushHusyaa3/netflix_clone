@@ -29,7 +29,7 @@ class _FavoritePageState extends State<FavoritePage> {
         options: Options(headers: {"Authorization": "Bearer $token"}),
       );
       return FavoriteModel.fromJson(response.data);
-    } on DioException catch (exe) {
+    } on DioError catch (exe) {
       throw Exception("Error fetching favorites: ${exe.message}");
     }
   }
@@ -47,7 +47,7 @@ class _FavoritePageState extends State<FavoritePage> {
         getFavoriteMovies();
         mySnackBar(context, snackBarText: "Movie Removed Successfully");
       }
-    } on DioException catch (exe) {
+    } on DioError catch (exe) {
       mySnackBar(context, snackBarText: "Delete Failed $exe");
     }
   }
@@ -87,7 +87,6 @@ class _FavoritePageState extends State<FavoritePage> {
                               snackBarText: "Removed Successfully",
                             );
                           },
-
                           background: Container(
                             color: Colors.red,
                             alignment: Alignment.centerRight,

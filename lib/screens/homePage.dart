@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_application_2/ModelClass/movies_model_class.dart';
 
-import 'package:flutter_application_2/app/api/api_helpers.dart';
 import 'package:flutter_application_2/app/api/api_path.dart';
 import 'package:flutter_application_2/app/utils/routes/app_routes.dart';
 import 'package:flutter_application_2/app/utils/textStyles/textstyle.dart';
@@ -44,7 +43,7 @@ class _HomePageState extends State<HomePage> {
           movieModel = MovieResponseModel.fromJson(response.data);
         });
       }
-    } on DioException catch (exe) {
+    } on DioError catch (exe) {
       setState(() {
         isLoading = true;
         errorMsg = exe.toString();
@@ -71,126 +70,128 @@ class _HomePageState extends State<HomePage> {
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : errorMsg != null
-          ? Center(child: Text(errorMsg.toString()))
-          : SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 40.r, horizontal: 20.r),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ? Center(child: Text(errorMsg.toString()))
+              : SingleChildScrollView(
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 40.r, horizontal: 20.r),
+                    child: Column(
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, AppRoutes.home);
-                          },
-                          child: Image.asset(
-                            "assets/images/movieshunt.png",
-                            width: 70.w,
-                            height: 70.h,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, AppRoutes.home);
+                              },
+                              child: Image.asset(
+                                "assets/images/movieshunt.png",
+                                width: 70.w,
+                                height: 70.h,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                iconButton(Icons.cast),
+                                iconButton(Icons.search_outlined),
+                              ],
+                            ),
+                          ],
                         ),
                         Row(
                           children: [
-                            iconButton(Icons.cast),
-                            iconButton(Icons.search_outlined),
+                            optionContainer(Text(options[0], style: t4())),
+                            optionContainer(Text(options[1], style: t4())),
+                            // comment Added
+                            optionContainer(
+                              DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  borderRadius: BorderRadius.circular(7),
+                                  isDense: true,
+                                  isExpanded: false,
+                                  hint: Text("Categories", style: t4()),
+                                  value: selecetdValue,
+                                  items: categories.map((value) {
+                                    return DropdownMenuItem(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      selecetdValue = newValue!;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
                           ],
                         ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        optionContainer(Text(options[0], style: t4())),
-                        optionContainer(Text(options[1], style: t4())),
-                        // comment Added
-                        optionContainer(
-                          DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              borderRadius: BorderRadius.circular(7),
-                              isDense: true,
-                              isExpanded: false,
-                              hint: Text("Categories", style: t4()),
-                              value: selecetdValue,
-                              items: categories.map((value) {
-                                return DropdownMenuItem(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                              onChanged: (newValue) {
-                                setState(() {
-                                  selecetdValue = newValue!;
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10.h),
-                    headingThumbnail(movieModel!.data!.data![0].thumbnailUrl!),
-                    SizedBox(height: 20.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                      children: [
-                        Text("Movies", style: t1()),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Row(
-                            children: [
-                              Text("My List", style: t4()),
-                              Icon(
-                                Icons.keyboard_arrow_right_outlined,
-                                size: 25.sp,
+                        SizedBox(height: 10.h),
+                        headingThumbnail(
+                            movieModel!.data!.data![0].thumbnailUrl!),
+                        SizedBox(height: 20.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Movies", style: t1()),
+                            GestureDetector(
+                              onTap: () {},
+                              child: Row(
+                                children: [
+                                  Text("My List", style: t4()),
+                                  Icon(
+                                    Icons.keyboard_arrow_right_outlined,
+                                    size: 25.sp,
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 280.h,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: movieModel!.data!.data!.length,
-                        itemBuilder: (context, index) {
-                          final snapshotDetail = movieModel!.data!.data![index];
-                          bool onPresed = false;
-                          return smallImageContainer(
-                            snapshotDetail.thumbnailUrl!,
-                            snapshotDetail.title!,
-                            snapshotDetail.releaseDate!,
-                            movieId: snapshotDetail.id,
-                            istap: onPresed,
-                            onIconPresed: () {
-                              // setState(() {
-                              //   onPresed = true;
-                              // });
-                            },
-
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                context,
-                                AppRoutes.playScreen,
-                                arguments: {
-                                  "title": snapshotDetail.title!,
-                                  "video_url": snapshotDetail.videoUrl!,
-                                  "desc": snapshotDetail.description!,
-                                  "imagePath": snapshotDetail.thumbnailUrl!,
-                                  "rating": snapshotDetail.rating!,
-                                  "release_date": snapshotDetail.releaseDate,
+                        SizedBox(
+                          height: 280.h,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: movieModel!.data!.data!.length,
+                            itemBuilder: (context, index) {
+                              final snapshotDetail =
+                                  movieModel!.data!.data![index];
+                              bool onPresed = false;
+                              return smallImageContainer(
+                                snapshotDetail.thumbnailUrl!,
+                                snapshotDetail.title!,
+                                snapshotDetail.releaseDate!,
+                                movieId: snapshotDetail.id,
+                                istap: onPresed,
+                                onIconPresed: () {
+                                  // setState(() {
+                                  //   onPresed = true;
+                                  // });
+                                },
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    AppRoutes.playScreen,
+                                    arguments: {
+                                      "title": snapshotDetail.title!,
+                                      "video_url": snapshotDetail.videoUrl!,
+                                      "desc": snapshotDetail.description!,
+                                      "imagePath": snapshotDetail.thumbnailUrl!,
+                                      "rating": snapshotDetail.rating!,
+                                      "release_date":
+                                          snapshotDetail.releaseDate,
+                                    },
+                                  );
                                 },
                               );
                             },
-                          );
-                        },
-                      ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
     );
   }
 
@@ -261,7 +262,6 @@ class _HomePageState extends State<HomePage> {
   }) {
     return Container(
       height: 40.h,
-
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(7),
         color: color,
@@ -294,7 +294,6 @@ class _HomePageState extends State<HomePage> {
   }) {
     return SizedBox(
       width: 120.w,
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -321,7 +320,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-
           Text(
             title,
             style: t4().copyWith(fontSize: 20.sp, fontWeight: FontWeight.bold),
@@ -360,7 +358,7 @@ class _MyFavoriteIconState extends State<MyFavoriteIcon> {
         ),
       );
       if (response.statusCode == 200) {}
-    } on DioException catch (exe) {
+    } on DioError catch (exe) {
       log("Error $exe");
 
       throw Exception(exe.toString());
@@ -380,7 +378,7 @@ class _MyFavoriteIconState extends State<MyFavoriteIcon> {
         ),
       );
       if (response.statusCode == 200) {}
-    } on DioException catch (exe) {
+    } on DioError catch (exe) {
       throw Exception(exe.toString());
     }
   }

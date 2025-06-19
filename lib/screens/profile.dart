@@ -51,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Navigator.pushNamed(context, AppRoutes.login);
         });
       }
-    } on DioException catch (exe) {
+    } on DioError catch (exe) {
       throw Exception(exe);
     }
   }
@@ -73,13 +73,10 @@ class _ProfilePageState extends State<ProfilePage> {
             profileModel!.data?.age.toString() ?? "Not provided";
         isLoading = false;
       });
-    } on DioException catch (exe) {
+    } on DioError catch (exe) {
       setState(() {
         error = exe.message!;
       });
-      if (exe.type == DioExceptionType.connectionTimeout) {
-        mySnackBar(context, snackBarText: "Connection Timeout");
-      }
     }
   }
 
@@ -109,7 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
         log("Profile updated successfully");
         mySnackBar(context, snackBarText: "Profile updated successfully");
       }
-    } on DioException catch (exe) {
+    } on DioError catch (exe) {
       log("Edit error: ${exe.message}");
       mySnackBar(context, snackBarText: "Update failed: ${exe.message}");
     }
@@ -123,124 +120,123 @@ class _ProfilePageState extends State<ProfilePage> {
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : error != null
-          ? Center(child: Text(error!, style: t4()))
-          : profileModel == null || profileDetail == null
-          ? Center(child: Text("No Profile Found"))
-          : SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10.h,
-                      horizontal: 20.w,
-                    ),
-                    child: Row(
-                      children: [
-                        Text("Your Profile", style: t4()),
-                        Spacer(),
-                        Icon(Icons.settings),
-                      ],
-                    ),
-                  ),
-
-                  Card(
-                    color: Colors.white,
-                    child: Padding(
-                      padding: EdgeInsets.all(15.w),
+              ? Center(child: Text(error!, style: t4()))
+              : profileModel == null || profileDetail == null
+                  ? Center(child: Text("No Profile Found"))
+                  : SingleChildScrollView(
                       child: Column(
                         children: [
-                          Container(
-                            width: 100.w,
-                            height: 100.h,
-                            decoration: BoxDecoration(
-                              color: Colors.purple,
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/photo.png"),
-                              ),
-                              shape: BoxShape.circle,
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 10.h,
+                              horizontal: 20.w,
+                            ),
+                            child: Row(
+                              children: [
+                                Text("Your Profile", style: t4()),
+                                Spacer(),
+                                Icon(Icons.settings),
+                              ],
                             ),
                           ),
-                          SizedBox(height: 10.h),
-                          Text(
-                            profileDetail.data!.name!,
-                            style: t4().copyWith(
-                              color: Colors.purple,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
+                          Card(
+                            color: Colors.white,
+                            child: Padding(
+                              padding: EdgeInsets.all(15.w),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: 100.w,
+                                    height: 100.h,
+                                    decoration: BoxDecoration(
+                                      color: Colors.purple,
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                            "assets/images/photo.png"),
+                                      ),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10.h),
+                                  Text(
+                                    profileDetail.data!.name!,
+                                    style: t4().copyWith(
+                                      color: Colors.purple,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    profileDetail.data!.email ?? "asdad",
+                                    style: t4().copyWith(
+                                      color: Colors.black,
+                                      fontSize: 12.sp,
+                                    ),
+                                  ),
+                                  MyTextField(
+                                    controller: nameController!,
+                                    headingText: "Name",
+                                    textColor: Colors.black,
+                                    icon: Icons.contact_page,
+                                  ),
+                                  MyTextField(
+                                    controller: emailController!,
+                                    headingText: "Email",
+                                    textColor: Colors.black,
+                                    icon: Icons.email,
+                                  ),
+                                  MyTextField(
+                                    controller: ageController!,
+                                    headingText: "Age",
+                                    textColor: Colors.black,
+                                    icon: Icons.person,
+                                  ),
+                                  MyTextField(
+                                    controller: passController!,
+                                    headingText: "Password",
+                                    textColor: Colors.black,
+                                    isEnable: false,
+                                    icon: Icons.lock,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      MyElevatedButton(
+                                        text: "Save",
+                                        onPressed: () {
+                                          editDetails();
+                                        },
+                                        isFulled: false,
+                                      ),
+                                      MyElevatedButton(
+                                        text: "Reset",
+                                        onPressed: () {
+                                          getProfileInfo(context);
+                                          mySnackBar(
+                                            context,
+                                            snackBarText:
+                                                "Profile Reset Successfully",
+                                          );
+                                        },
+                                        isFulled: false,
+                                      ),
+                                      MyElevatedButton(
+                                        text: "log out",
+                                        onPressed: () {
+                                          logut(context);
+                                        },
+                                        isFulled: false,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Text(
-                            profileDetail.data!.email ?? "asdad",
-                            style: t4().copyWith(
-                              color: Colors.black,
-                              fontSize: 12.sp,
-                            ),
-                          ),
-                          MyTextField(
-                            controller: nameController!,
-                            headingText: "Name",
-                            textColor: Colors.black,
-                            icon: Icons.contact_page,
-                          ),
-
-                          MyTextField(
-                            controller: emailController!,
-                            headingText: "Email",
-                            textColor: Colors.black,
-                            icon: Icons.email,
-                          ),
-                          MyTextField(
-                            controller: ageController!,
-                            headingText: "Age",
-                            textColor: Colors.black,
-                            icon: Icons.person,
-                          ),
-
-                          MyTextField(
-                            controller: passController!,
-                            headingText: "Password",
-                            textColor: Colors.black,
-                            isEnable: false,
-                            icon: Icons.lock,
-                          ),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              MyElevatedButton(
-                                text: "Save",
-                                onPressed: () {
-                                  editDetails();
-                                },
-                                isFulled: false,
-                              ),
-                              MyElevatedButton(
-                                text: "Reset",
-                                onPressed: () {
-                                  getProfileInfo(context);
-                                  mySnackBar(
-                                    context,
-                                    snackBarText: "Profile Reset Successfully",
-                                  );
-                                },
-                                isFulled: false,
-                              ),
-                              MyElevatedButton(
-                                text: "log out",
-                                onPressed: () {
-                                  logut(context);
-                                },
-                                isFulled: false,
-                              ),
-                            ],
                           ),
                         ],
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
     );
   }
 }

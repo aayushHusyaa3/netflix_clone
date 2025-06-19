@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/app/utils/AppColor/app_color.dart';
 import 'package:flutter_application_2/app/utils/textStyles/textstyle.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyTextField extends StatefulWidget {
@@ -40,17 +39,19 @@ class _MyTextFieldState extends State<MyTextField> {
           SizedBox(height: 5.h),
           TextField(
             enabled: widget.isEnable,
-            style: TextStyle(color: widget.textColor, fontSize: 10.sp),
+            style: TextStyle(color: widget.textColor),
             controller: widget.controller,
             obscureText: widget.isHide,
             decoration: InputDecoration(
               fillColor: widget.isEnable ? Colors.white : Colors.grey.shade500,
               filled: true,
               suffixIcon: Icon(widget.icon, size: 25.r, color: Colors.purple),
-              hint: Text(
-                widget.hintText,
-                style: t3().copyWith(color: Colors.grey.shade600),
-              ),
+              // hint: Text(
+              //   widget.hintText,
+              //   style: t3().copyWith(color: Colors.grey.shade600),
+              // ),
+              hintText: widget.hintText,
+              hintStyle: t3().copyWith(color: Colors.grey.shade600),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(7),
               ),
@@ -85,8 +86,7 @@ class MyElevatedButton extends StatelessWidget {
         child: Container(
           alignment: Alignment.center,
           width: isFulled ? double.infinity : null,
-
-          height: 50.h,
+          height: 45.h,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [AppColor.gradinet1, AppColor.gradinet2],
@@ -114,7 +114,6 @@ Widget iConContainer({required IconData icon, Color color = Colors.red}) {
         borderRadius: BorderRadius.circular(7.r),
         color: AppColor.iconBgColor,
       ),
-
       child: Icon(icon, size: 25.h, color: color),
     ),
   );
@@ -145,20 +144,16 @@ void mySnackBar(BuildContext context, {required String snackBarText}) {
   ScaffoldMessenger.of(context).removeCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      behavior: SnackBarBehavior.floating,
-      content: Text(
-        snackBarText,
-        style: t4().copyWith(color: Colors.black, fontSize: 12.sp),
-      ),
+      content: Text(snackBarText, style: t4().copyWith(color: Colors.black)),
     ),
   );
 }
 
 class MyshowButton extends StatelessWidget {
-  final String text;
-  final String userDetail;
-  final VoidCallback onIconPressed;
-  const MyshowButton({
+  String text;
+  String userDetail;
+  VoidCallback onIconPressed;
+  MyshowButton({
     super.key,
     required this.text,
     required this.userDetail,
@@ -176,7 +171,6 @@ class MyshowButton extends StatelessWidget {
           Container(
             alignment: Alignment.centerLeft,
             width: double.infinity,
-
             decoration: BoxDecoration(
               color: Colors.grey.shade400,
               borderRadius: BorderRadius.circular(7),
@@ -214,9 +208,8 @@ void editDetailsAlertBox(
     builder: (BuildContext context) {
       return AlertDialog(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadiusGeometry.circular(10.r),
+          borderRadius: BorderRadius.circular(10.r),
         ),
-
         backgroundColor: Colors.white,
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -258,7 +251,6 @@ class MySearchTextField extends StatefulWidget {
     required this.onChanged,
     super.key,
     this.hintText = "",
-
     this.fillColor,
     this.textColor = Colors.white,
     required this.controller,
@@ -278,7 +270,6 @@ class _MySearchTextFieldState extends State<MySearchTextField> {
         children: [
           TextField(
             onChanged: widget.onChanged,
-
             style: TextStyle(color: widget.textColor),
             controller: widget.controller,
             decoration: InputDecoration(
@@ -286,7 +277,8 @@ class _MySearchTextFieldState extends State<MySearchTextField> {
               filled: true,
               suffixIcon: Icon(Icons.mic, size: 25.r, color: Colors.grey),
               prefixIcon: Icon(Icons.search, size: 25.r, color: Colors.grey),
-              hint: Text(widget.hintText, style: TextStyle(color: Colors.grey)),
+              hintText: widget.hintText,
+              hintStyle: t3().copyWith(color: Colors.grey.shade600),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(7),
               ),
