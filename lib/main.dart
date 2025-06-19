@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_application_2/app/utils/routes/app_router.dart';
 import 'package:flutter_application_2/app/utils/routes/app_routes.dart';
-import 'package:flutter_application_2/providers/auth_provider.dart';
 import 'package:flutter_application_2/screens/login.dart';
+import 'package:flutter_application_2/service/multiple_bloc_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => AuthProvider())],
-      child: MyApp(),
-    ),
-  );
+  runApp(MultipleBlocProvider(child: MyApp()));
 }
 
 class MyApp extends StatefulWidget {

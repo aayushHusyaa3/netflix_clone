@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/app/utils/AppColor/app_color.dart';
 import 'package:flutter_application_2/app/utils/textStyles/textstyle.dart';
-import 'package:flutter_application_2/providers/auth_provider.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 class MyTextField extends StatefulWidget {
   final String hintText;
@@ -41,8 +40,7 @@ class _MyTextFieldState extends State<MyTextField> {
           SizedBox(height: 5.h),
           TextField(
             enabled: widget.isEnable,
-
-            style: TextStyle(color: widget.textColor),
+            style: TextStyle(color: widget.textColor, fontSize: 10.sp),
             controller: widget.controller,
             obscureText: widget.isHide,
             decoration: InputDecoration(
@@ -88,7 +86,7 @@ class MyElevatedButton extends StatelessWidget {
           alignment: Alignment.center,
           width: isFulled ? double.infinity : null,
 
-          height: 45.h,
+          height: 50.h,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [AppColor.gradinet1, AppColor.gradinet2],
@@ -147,16 +145,20 @@ void mySnackBar(BuildContext context, {required String snackBarText}) {
   ScaffoldMessenger.of(context).removeCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Text(snackBarText, style: t4().copyWith(color: Colors.black)),
+      behavior: SnackBarBehavior.floating,
+      content: Text(
+        snackBarText,
+        style: t4().copyWith(color: Colors.black, fontSize: 12.sp),
+      ),
     ),
   );
 }
 
 class MyshowButton extends StatelessWidget {
-  String text;
-  String userDetail;
-  VoidCallback onIconPressed;
-  MyshowButton({
+  final String text;
+  final String userDetail;
+  final VoidCallback onIconPressed;
+  const MyshowButton({
     super.key,
     required this.text,
     required this.userDetail,

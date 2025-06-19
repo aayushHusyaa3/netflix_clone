@@ -3,7 +3,7 @@ import 'package:flutter_application_2/app/utils/AppColor/app_color.dart';
 import 'package:flutter_application_2/app/utils/routes/app_routes.dart';
 import 'package:flutter_application_2/app/utils/textStyles/textstyle.dart';
 import 'package:flutter_application_2/app/utils/uiHelper/ui_helper.dart';
-import 'package:flutter_application_2/providers/auth_provider.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
@@ -15,9 +15,12 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController confirmPassController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 25.r, horizontal: 25.r),
@@ -36,34 +39,29 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Column(
                       children: [
                         MyTextField(
-                          controller: authProvider.nameController,
+                          controller: nameController,
                           headingText: "Full Name",
                           hintText: "Aayush Gupta",
                         ),
                         MyTextField(
-                          controller: authProvider.emailController,
+                          controller: emailController,
                           headingText: "Email",
                           hintText: "aayush3@gmail.com",
                         ),
                         MyTextField(
-                          controller: authProvider.passController,
+                          controller: passwordController,
                           headingText: "Password",
                           hintText: "**************",
                           isHide: true,
                         ),
                         MyTextField(
-                          controller: authProvider.confirmPassController,
+                          controller: confirmPassController,
                           headingText: "Confirm Password",
                           hintText: "***********",
                           isHide: true,
                         ),
 
-                        MyElevatedButton(
-                          text: "Register",
-                          onPressed: () {
-                            authProvider.registerApi(context);
-                          },
-                        ),
+                        MyElevatedButton(text: "Register", onPressed: () {}),
                         InkWell(
                           onTap: () {
                             Navigator.pushNamed(context, AppRoutes.login);

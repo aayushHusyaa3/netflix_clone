@@ -2,8 +2,9 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/ModelClass/search_movies.dart';
+import 'package:flutter_application_2/app/api/api_path.dart';
 import 'package:flutter_application_2/app/utils/AppColor/app_color.dart';
-import 'package:flutter_application_2/app/utils/api_helpers.dart';
+import 'package:flutter_application_2/app/api/api_helpers.dart';
 import 'package:flutter_application_2/app/utils/textStyles/textstyle.dart';
 import 'package:flutter_application_2/app/utils/uiHelper/ui_helper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,7 +38,7 @@ class _SearchPageState extends State<SearchPage> {
     });
     try {
       final Response response = await dio.post(
-        ApiHelpers.baseurl + ApiHelpers.searchMovies,
+        ApiPath.baseUrl + ApiPath.searchMovies,
 
         data: {"name": userSearchController.text.toString()},
       );

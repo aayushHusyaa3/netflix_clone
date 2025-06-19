@@ -3,12 +3,13 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/ModelClass/profile_model.dart';
-import 'package:flutter_application_2/app/utils/api_helpers.dart';
+import 'package:flutter_application_2/app/api/api_helpers.dart';
+import 'package:flutter_application_2/app/api/api_path.dart';
 
 import 'package:flutter_application_2/app/utils/routes/app_routes.dart';
 import 'package:flutter_application_2/app/utils/textStyles/textstyle.dart';
 import 'package:flutter_application_2/app/utils/uiHelper/ui_helper.dart';
-import 'package:flutter_application_2/dioException/dio_exceptions.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -41,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final token = await storage.read(key: "token");
     try {
       final Response response = await dio.post(
-        ApiHelpers.baseurl + ApiHelpers.logOut,
+        ApiPath.baseUrl + ApiPath.logOut,
         options: Options(headers: {"Authorization": "Bearer $token"}),
       );
       if (response.statusCode == 200) {
@@ -51,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
         });
       }
     } on DioException catch (exe) {
-      catchDioExceptionHanlder(context, exe);
+      throw Exception(exe);
     }
   }
 
@@ -60,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     try {
       final Response response = await dio.get(
-        ApiHelpers.baseurl + ApiHelpers.profileUrl,
+        ApiPath.baseUrl + ApiPath.profileUrl,
         options: Options(headers: {"Authorization": "Bearer $token"}),
       );
       setState(() {

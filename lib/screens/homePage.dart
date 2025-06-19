@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -6,7 +5,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_application_2/ModelClass/movies_model_class.dart';
 
-import 'package:flutter_application_2/app/utils/api_helpers.dart';
+import 'package:flutter_application_2/app/api/api_helpers.dart';
+import 'package:flutter_application_2/app/api/api_path.dart';
 import 'package:flutter_application_2/app/utils/routes/app_routes.dart';
 import 'package:flutter_application_2/app/utils/textStyles/textstyle.dart';
 import 'package:flutter_application_2/app/utils/uiHelper/ui_helper.dart';
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> getMoviesDetails(context) async {
     try {
       final Response response = await dio.get(
-        ApiHelpers.baseurl + ApiHelpers.homeUrl,
+        ApiPath.baseUrl + ApiPath.homeUrl,
       );
       if (response.statusCode == 200) {
         setState(() {
@@ -351,7 +351,7 @@ class _MyFavoriteIconState extends State<MyFavoriteIcon> {
       final accesToken = await storage.read(key: "token");
       log("AcessToken:$accesToken!");
       final Response response = await dio.post(
-        "${ApiHelpers.baseurl}${ApiHelpers.postFavourite}/$movieId",
+        "${ApiPath.baseUrl}${ApiPath.postFavourite}/$movieId",
         options: Options(
           headers: {
             "Authorization": "Bearer $accesToken",
@@ -371,7 +371,7 @@ class _MyFavoriteIconState extends State<MyFavoriteIcon> {
     final accesToken = await storage.read(key: "token");
     try {
       final Response response = await dio.delete(
-        '${ApiHelpers.baseurl}/remove-favorite/$movieId',
+        '${ApiPath.baseUrl}/remove-favorite/$movieId',
         options: Options(
           headers: {
             "Authorization": "Barrer $accesToken",

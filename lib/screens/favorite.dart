@@ -3,7 +3,8 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/ModelClass/favorite_model.dart';
-import 'package:flutter_application_2/app/utils/api_helpers.dart';
+
+import 'package:flutter_application_2/app/api/api_path.dart';
 import 'package:flutter_application_2/app/utils/textStyles/textstyle.dart';
 import 'package:flutter_application_2/app/utils/uiHelper/ui_helper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,7 +25,7 @@ class _FavoritePageState extends State<FavoritePage> {
     final token = await storage.read(key: "token");
     try {
       final Response response = await dio.get(
-        ApiHelpers.baseurl + ApiHelpers.getFavourite,
+        ApiPath.baseUrl + ApiPath.getFavourite,
         options: Options(headers: {"Authorization": "Bearer $token"}),
       );
       return FavoriteModel.fromJson(response.data);
@@ -41,9 +42,7 @@ class _FavoritePageState extends State<FavoritePage> {
         "http://192.168.1.212:8000/api/remove-favorite/$movieId",
         options: Options(headers: {"Authorization": "Bearer $token"}),
       );
-      log(
-        "Delete URl ${ApiHelpers.baseurl}${ApiHelpers.removeFavourite}/$movieId}",
-      );
+      log("Delete URl ${ApiPath.baseUrl}${ApiPath.removeFavourite}/$movieId}");
       if (response.statusCode == 200) {
         getFavoriteMovies();
         mySnackBar(context, snackBarText: "Movie Removed Successfully");
