@@ -38,7 +38,14 @@ class AppRouter {
       return _transitionTo(SplashScreen());
     } else if (settings.name == AppRoutes.home) {
       return _transitionTo(HomePage());
-    } else if (settings.name == AppRoutes.navigationScreen) {
+    }
+    // else if (settings.name == AppRoutes.forgetScreen) {
+    //   return _transitionTo(ForgetPassword());
+    // } else if (settings.name == AppRoutes.forgetScreen) {
+    //   return _transitionTo(ForgetPassword());
+    // }
+
+    else if (settings.name == AppRoutes.navigationScreen) {
       return _transitionTo(NavigationPage());
     } else if (settings.name == AppRoutes.login) {
       return _transitionTo(LoginPage());

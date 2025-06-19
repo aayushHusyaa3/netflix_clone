@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/app/utils/AppColor/app_color.dart';
 import 'package:flutter_application_2/app/utils/routes/app_routes.dart';
@@ -81,15 +83,20 @@ class _LoginPageState extends State<LoginPage> {
                         BlocConsumer<LoginCubit, LoginState>(
                           listener: (context, state) {
                             if (state.status == LoginStatus.loggedIn) {
+                              log("loged In: ${state.error}");
+                              Navigator.pushNamed(context, AppRoutes.home);
                             } else if (state.status ==
                                 LoginStatus.loginFailure) {
-                              mySnackBar(context, snackBarText: state.error);
+                              Text("Login Failed ${state.error}");
+                              log("logining failure In: ${state.error}");
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(state.error)));
                             }
                           },
                           builder: (context, state) {
                             if (state.status == LoginStatus.logginIn) {
-                              mySnackBar(context,
-                                  snackBarText: "Logging in...");
+                              log("logining In: ${state.error}");
+                              return CircularProgressIndicator();
                             }
                             return MyElevatedButton(
                               text: "Login",
