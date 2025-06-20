@@ -12,20 +12,20 @@ class SearchMovies {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
     token = json['token'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['token'] = this.token;
+    data['token'] = token;
     return data;
   }
 }
@@ -71,25 +71,25 @@ class Data {
     if (json['genres'] != null) {
       genres = <Genres>[];
       json['genres'].forEach((v) {
-        genres!.add(new Genres.fromJson(v));
+        genres!.add(Genres.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['description'] = this.description;
-    data['release_date'] = this.releaseDate;
-    data['duration'] = this.duration;
-    data['rating'] = this.rating;
-    data['language'] = this.language;
-    data['thumbnail_url'] = this.thumbnailUrl;
-    data['trailer_url'] = this.trailerUrl;
-    data['video_url'] = this.videoUrl;
-    if (this.genres != null) {
-      data['genres'] = this.genres!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['description'] = description;
+    data['release_date'] = releaseDate;
+    data['duration'] = duration;
+    data['rating'] = rating;
+    data['language'] = language;
+    data['thumbnail_url'] = thumbnailUrl;
+    data['trailer_url'] = trailerUrl;
+    data['video_url'] = videoUrl;
+    if (genres != null) {
+      data['genres'] = genres!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -107,9 +107,9 @@ class Genres {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
     return data;
   }
 }

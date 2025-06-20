@@ -19,7 +19,13 @@ class LoginCubit extends Cubit<LoginState> {
     required String password,
     required BuildContext context,
   }) async {
-    emit(state.copyWith(status: LoginStatus.logginIn));
+    if (email.isEmpty || password.isEmpty) {
+      emit(state.copyWith(
+          status: LoginStatus.emptyInfo, error: "Enter the required Field"));
+    } else {
+      emit(state.copyWith(
+          status: LoginStatus.logginIn, error: "Logging..... Please Wait"));
+    }
 
     try {
       final Response response = await repo.loginRepo(
@@ -31,13 +37,15 @@ class LoginCubit extends Cubit<LoginState> {
       secureStorage.write(key: "token", value: token);
       emit(
         state.copyWith(
-          status: LoginStatus.loggedIn,
-          // message: "Logged in Succesful",
-        ),
+            status: LoginStatus.loggedIn, error: "Logged In Successful"),
       );
     } on ApiException catch (exe) {
       emit(state.copyWith(
           status: LoginStatus.loginFailure, error: exe.errorMsg));
     }
+  }
+
+  void clearMessage() {
+    emit(state.copyWith(error: null));
   }
 }

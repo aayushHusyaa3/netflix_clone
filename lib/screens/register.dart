@@ -5,7 +5,6 @@ import 'package:flutter_application_2/app/utils/textStyles/textstyle.dart';
 import 'package:flutter_application_2/app/utils/uiHelper/ui_helper.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -28,7 +27,6 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             children: [
               Text("Register", style: t1()),
-
               SizedBox(
                 width: double.infinity,
                 child: Card(
@@ -60,7 +58,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           hintText: "***********",
                           isHide: true,
                         ),
-
                         MyElevatedButton(text: "Register", onPressed: () {}),
                         InkWell(
                           onTap: () {

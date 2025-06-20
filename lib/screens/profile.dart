@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/ModelClass/profile_model.dart';
-import 'package:flutter_application_2/app/api/api_helpers.dart';
+
 import 'package:flutter_application_2/app/api/api_path.dart';
 
 import 'package:flutter_application_2/app/utils/routes/app_routes.dart';
@@ -75,7 +75,7 @@ class _ProfilePageState extends State<ProfilePage> {
       });
     } on DioError catch (exe) {
       setState(() {
-        error = exe.message!;
+        error = exe.message;
       });
     }
   }
@@ -225,6 +225,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         text: "log out",
                                         onPressed: () {
                                           logut(context);
+                                          storage.delete(key: "email");
                                         },
                                         isFulled: false,
                                       ),

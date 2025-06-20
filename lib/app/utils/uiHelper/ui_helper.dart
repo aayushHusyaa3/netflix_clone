@@ -71,11 +71,13 @@ class MyElevatedButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final bool isFulled;
+  final bool isloading;
   const MyElevatedButton({
     super.key,
     required this.text,
     this.isFulled = true,
     required this.onPressed,
+    this.isloading = false,
   });
   @override
   Widget build(BuildContext context) {
@@ -97,7 +99,9 @@ class MyElevatedButton extends StatelessWidget {
             padding: isFulled
                 ? EdgeInsets.all(0)
                 : EdgeInsets.symmetric(horizontal: 20.w),
-            child: Text(text, style: t4()),
+            child: isloading
+                ? Center(child: CircularProgressIndicator())
+                : Text(text, style: t4()),
           ),
         ),
       ),
@@ -141,12 +145,13 @@ void myAlertBox(BuildContext context, {String titleText = ""}) {
 }
 
 void mySnackBar(BuildContext context, {required String snackBarText}) {
-  ScaffoldMessenger.of(context).removeCurrentSnackBar();
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text(snackBarText, style: t4().copyWith(color: Colors.black)),
-    ),
-  );
+  ScaffoldMessenger.of(context)
+    ..clearSnackBars()
+    ..showSnackBar(
+      SnackBar(
+        content: Text(snackBarText, style: t4().copyWith(color: Colors.black)),
+      ),
+    );
 }
 
 class MyshowButton extends StatelessWidget {

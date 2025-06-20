@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/app/utils/routes/app_routes.dart';
@@ -24,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 3),
+      duration: Duration(seconds: 1),
     );
     tweenController = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(parent: animationController, curve: Curves.bounceIn),
@@ -36,12 +35,13 @@ class _SplashScreenState extends State<SplashScreen>
   void splashScreenInitilized(context) async {
     final token = await storage.read(key: "token");
 
-    Timer(Duration(seconds: 3), () {
-      if (token != null && token.isNotEmpty) {
-        Navigator.pushReplacementNamed(context, AppRoutes.navigationScreen);
-      } else {
-        Navigator.pushReplacementNamed(context, AppRoutes.login);
-      }
+    Timer(Duration(seconds: 1), () {
+      // if (token != null && token.isNotEmpty) {
+      //   Navigator.pushReplacementNamed(context, AppRoutes.navigationScreen);
+      // } else {
+      //   Navigator.pushReplacementNamed(context, AppRoutes.login);
+      // }
+      Navigator.pushReplacementNamed(context, AppRoutes.login);
     });
   }
 

@@ -10,4 +10,6 @@ class ApiPath {
   static final String editProfile = '/profile-edit';
   static final String searchMovies = '/search-movies';
   static final String logOut = '/logout';
+  static final String forgetPassword = '/forget-password';
+  static final resetPassword = '/reset-password';
 }
